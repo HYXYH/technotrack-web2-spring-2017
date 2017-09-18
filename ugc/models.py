@@ -1,0 +1,101 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from core.models import AuthorableModel, DateableModel
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.db.models.signals import post_save
+from django.contrib.contenttypes.models import ContentType
+from events.inheritance_models import WatchableModel
+
+from django.db import models
+
+# Create your models here.
+
+
+class Like(AuthorableModel, DateableModel, WatchableModel):
+
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField(default=0)
+    object = GenericForeignKey('content_type', 'object_id')
+
+    @staticmethod
+    def set_signal(handler):
+        post_save.connect(handler, Like)
+
+    def get_title_for_event(self):
+        return "{} лайкнул {}".format(self.author.username, self.content_type.model_class().objects.get(id=self.object_id))
+
+    def get_event_type(self):
+        return self.activity_event
+
+    def __unicode__(self):
+        return "Лайк от юзера {}".format(self.author.username)
+
+    class Meta:
+        verbose_name = 'Лайк'
+        verbose_name_plural = 'Лайки'
+
+
+class LikeableModel(models.Model):
+
+    likes = GenericRelation(Like, object_id_field='object_id', content_type_field='content_type')
+    likes_count = models.IntegerField(default=0, verbose_name='Всего лайков')
+
+    class Meta:
+        abstract = True
+
+
+class Comment(AuthorableModel, DateableModel, LikeableModel, WatchableModel):
+
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField(default=0)
+    object = GenericForeignKey('content_type', 'object_id')
+
+    text = models.TextField(verbose_name='текст комментария')
+
+    @staticmethod
+    def set_signal(handler):
+        post_save.connect(handler, Comment)
+
+    def get_title_for_event(self):
+        return "{} чёто откоментил: \"{}\"".format(self.author.username, self.text[:50])
+
+    def get_event_type(self):
+        return self.activity_event
+
+    def __unicode__(self):
+        return "Коммент: \"{}\" от юзера {}".format(self.text[:50], self.author.username)
+
+    class Meta:
+        verbose_name = 'Коммент'
+        verbose_name_plural = 'Комменты'
+
+
+class CommentableModel(models.Model):
+
+    comments = GenericRelation(Comment, object_id_field='object_id', content_type_field='content_type')
+    comments_count = models.IntegerField(default=0, verbose_name='Всего комментов')
+
+    class Meta:
+        abstract = True
+
+
+class Post(AuthorableModel, DateableModel, CommentableModel, LikeableModel, WatchableModel):
+
+    text = models.TextField(verbose_name='текст поста')
+
+    @staticmethod
+    def set_signal(handler):
+        post_save.connect(handler, Post)
+
+    def get_title_for_event(self):
+        return "{} чёто запостил: \"{}\"".format(self.author.username, self.text[:50])
+
+    def get_event_type(self):
+        return self.activity_event
+
+    def __unicode__(self):
+        return "Пост: \"{}\" от юзера {}".format(self.text[:50], self.author.username)
+
+    class Meta:
+        verbose_name = 'Пост'
+        verbose_name_plural = 'Посты'
