@@ -9,4 +9,4 @@ class EventsConfig(AppConfig):
     verbose_name = 'События'
 
     def ready(self):
-        import events.signals
+        import signals

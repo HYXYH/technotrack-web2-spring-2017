@@ -2,7 +2,9 @@
 from __future__ import unicode_literals
 
 from django.db.models.signals import m2m_changed
+print "before"
 from events.inheritance_models import WatchableModel
+print "after"
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -20,8 +22,8 @@ class User(AbstractUser, DateableModel, WatchableModel):
     following = models.ManyToManyField('self', blank=True)
     # wall = models.ManyToMany(Event, blank=True)
 
-    @staticmethod
-    def set_signal(handler):
+    @classmethod
+    def set_signal(cls, handler):
         m2m_changed.connect(handler, User.following.through)
 
     def get_title_for_event(self):

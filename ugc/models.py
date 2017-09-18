@@ -17,10 +17,6 @@ class Like(AuthorableModel, DateableModel, WatchableModel):
     object_id = models.PositiveIntegerField(default=0)
     object = GenericForeignKey('content_type', 'object_id')
 
-    @staticmethod
-    def set_signal(handler):
-        post_save.connect(handler, Like)
-
     def get_title_for_event(self):
         return "{} лайкнул {}".format(self.author.username, self.content_type.model_class().objects.get(id=self.object_id))
 
@@ -52,10 +48,6 @@ class Comment(AuthorableModel, DateableModel, LikeableModel, WatchableModel):
 
     text = models.TextField(verbose_name='текст комментария')
 
-    @staticmethod
-    def set_signal(handler):
-        post_save.connect(handler, Comment)
-
     def get_title_for_event(self):
         return "{} чёто откоментил: \"{}\"".format(self.author.username, self.text[:50])
 
@@ -82,10 +74,6 @@ class CommentableModel(models.Model):
 class Post(AuthorableModel, DateableModel, CommentableModel, LikeableModel, WatchableModel):
 
     text = models.TextField(verbose_name='текст поста')
-
-    @staticmethod
-    def set_signal(handler):
-        post_save.connect(handler, Post)
 
     def get_title_for_event(self):
         return "{} чёто запостил: \"{}\"".format(self.author.username, self.text[:50])

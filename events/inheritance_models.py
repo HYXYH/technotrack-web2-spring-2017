@@ -1,13 +1,17 @@
+# -*- coding: utf-8 -*-
 from django.db import models
+from django.db.models.signals import post_save
 
 
 class WatchableModel(models.Model):
     activity_event = 'activity_event'
     follow_event = 'follow_event'
+    ACTIVITY_EVENT = 0
+    FOLLOW_EVENT = 1
 
-    @staticmethod
-    def set_signal(handler):
-        raise NotImplemented
+    @classmethod
+    def set_signal(cls, handler):
+        post_save.connect(handler, cls)
 
     def get_title_for_event(self):
         raise NotImplemented

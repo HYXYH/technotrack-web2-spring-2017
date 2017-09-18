@@ -9,4 +9,4 @@ class UgcConfig(AppConfig):
     verbose_name = 'Юзер Генерейтед Контент'
 
     def ready(self):
-        import ugc.signals
+        import signals
