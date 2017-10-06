@@ -2,9 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db.models.signals import m2m_changed
-print "before"
 from events.inheritance_models import WatchableModel
-print "after"
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -42,6 +40,3 @@ class AuthorableModel(models.Model):
 
     class Meta:
         abstract = True
-
-
-# inheritance_models - что делать когда циклический импорт

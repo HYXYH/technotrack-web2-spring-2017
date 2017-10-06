@@ -22,4 +22,4 @@ def create_event(instance, created=False, *args, **kwargs):
 
 for model in WatchableModel.__subclasses__():
     model.set_signal(create_event)
-    print 'set watchable signal for {}'.format(model)
+    # print 'set watchable signal for {}'.format(model)

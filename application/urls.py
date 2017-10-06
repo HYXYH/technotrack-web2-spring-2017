@@ -16,9 +16,24 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
+from rest_framework import routers
+from ugc.api.viewsets import PostViewSet, CommentViewSet, LikeViewSet
+from core.api.viewsets import UserViewSet
+from events.api.viewsets import EventViewSet
+
+
+router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
+router.register(r'posts', PostViewSet)
+router.register(r'comments', CommentViewSet)
+router.register(r'likes', LikeViewSet)
+router.register(r'events', EventViewSet)
+print router.get_urls()
 
 urlpatterns = [
-    # url(r'^grappelli/', include('grappelli.urls')),
+    url(r'^api/v1/', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^social/', include('social_django.urls', namespace='social')),
     url(r'^admin/', admin.site.urls),
 ]
 
