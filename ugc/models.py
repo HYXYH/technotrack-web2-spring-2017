@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from core.models import AuthorableModel, DateableModel
+from core.models import AuthorableModel, DateableModel, ModelWithApi
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.db.models.signals import post_save
 from django.contrib.contenttypes.models import ContentType
@@ -11,7 +11,7 @@ from django.db import models
 # Create your models here.
 
 
-class Like(AuthorableModel, DateableModel, WatchableModel):
+class Like(AuthorableModel, DateableModel, WatchableModel, ModelWithApi):
 
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField(default=0)
@@ -40,7 +40,7 @@ class LikeableModel(models.Model):
         abstract = True
 
 
-class Comment(AuthorableModel, DateableModel, LikeableModel, WatchableModel):
+class Comment(AuthorableModel, DateableModel, LikeableModel, WatchableModel, ModelWithApi):
 
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField(default=0)
@@ -71,7 +71,7 @@ class CommentableModel(models.Model):
         abstract = True
 
 
-class Post(AuthorableModel, DateableModel, CommentableModel, LikeableModel, WatchableModel):
+class Post(AuthorableModel, DateableModel, CommentableModel, LikeableModel, WatchableModel, ModelWithApi):
 
     text = models.TextField(verbose_name='текст поста')
 

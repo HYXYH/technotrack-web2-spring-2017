@@ -13,7 +13,6 @@ class BasicUserSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'first_name', 'last_name', 'email', 'following',)
-        read_only_fields = ['__all__']
 
 
 class FullUserSerializer(ModelSerializer):

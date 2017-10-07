@@ -7,6 +7,13 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
+class ModelWithApi(models.Model):
+    hasAPI = True
+
+    class Meta:
+        abstract = True
+
+
 class DateableModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -15,7 +22,7 @@ class DateableModel(models.Model):
         abstract = True
 
 
-class User(AbstractUser, DateableModel, WatchableModel):
+class User(AbstractUser, DateableModel, WatchableModel, ModelWithApi):
 
     following = models.ManyToManyField('self', blank=True)
     # wall = models.ManyToMany(Event, blank=True)
