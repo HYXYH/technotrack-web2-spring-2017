@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, Serializer
 from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
 from  django.http.request import HttpRequest
@@ -13,7 +13,7 @@ class PostSerializer(ModelSerializer):
     likes_count = serializers.ReadOnlyField()
     comments_count = serializers.ReadOnlyField()
     # todo
-    likes = serializers.HyperlinkedRelatedField(view_name='like-detail', queryset=Like.objects.all(), many=True)
+    # likes = serializers.HyperlinkedRelatedField(view_name='like-detail', queryset=Like.objects.all(), many=True)
     comments = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
 
     class Meta:

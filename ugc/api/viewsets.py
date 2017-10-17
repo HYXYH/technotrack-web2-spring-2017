@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import GenericAPIView
-from serializers import PostSerializer, CommentSerializer, LikeSerializer, ContentTypeSerializer
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from django.shortcuts import get_object_or_404
+from serializers import PostSerializer, CommentSerializer, LikeSerializer, ContentTypeSerializer, serializers
 from django.contrib.contenttypes.models import ContentType
-from ugc.models import Post, Comment, Like
+from ugc.models import Post, Comment, Like, models
 from core.permissions import IsOwnerOrReadOnly, ReadOnly, permissions
+import sys
 
 # Create your views here.
 
@@ -57,3 +58,27 @@ class ContentTypeViewSet(ModelViewSet):
                 if q.model_class().hasAPI:
                     hasApi.append(q.id)
         return queryset.filter(id__in=hasApi)
+
+
+class ContentViewSet(ReadOnlyModelViewSet):
+
+    def get_model_name(self):
+        model_id = self.request.query_params.get('type_id', None)
+        queryset = ContentType.objects.all()
+        found = get_object_or_404(queryset, pk=model_id)
+        model_name = found.model
+        model_name = model_name[:1].upper() + model_name[1:]
+        return model_name
+
+    def get_queryset(self):
+        model_name = self.get_model_name()
+        model = getattr(sys.modules[__name__], model_name)
+        print model
+        return model.objects.all()
+
+    def get_serializer(self, *args, **kwargs):
+        model_name = self.get_model_name()
+        serializer_name = '{}{}'.format(model_name, 'Serializer')
+        serializer_class = getattr(sys.modules[__name__], serializer_name)
+        print serializer_class
+        return serializer_class(*args, **kwargs)
