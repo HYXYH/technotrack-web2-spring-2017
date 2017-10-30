@@ -1,29 +1,16 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, Serializer
+from core.api.serializers import BasicUserSerializer
 from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
 from  django.http.request import HttpRequest
 from ugc.models import Post, Comment, Like
 
 
-class PostSerializer(ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-    author = serializers.ReadOnlyField(source='author.id')
-    likes_count = serializers.ReadOnlyField()
-    comments_count = serializers.ReadOnlyField()
-    # todo
-    # likes = serializers.HyperlinkedRelatedField(view_name='like-detail', queryset=Like.objects.all(), many=True)
-    comments = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
-
-    class Meta:
-        model = Post
-        fields = '__all__'
-
-
 class CommentSerializer(ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    author = serializers.ReadOnlyField(source='author.id')
+    author = BasicUserSerializer()
     likes_count = serializers.ReadOnlyField()
 
     class Meta:
@@ -33,7 +20,7 @@ class CommentSerializer(ModelSerializer):
 
 class LikeSerializer(ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    author = serializers.ReadOnlyField(source='author.id')
+    author = BasicUserSerializer()
 
     class Meta:
         model = Like
@@ -51,3 +38,16 @@ class ContentTypeSerializer(ModelSerializer):
     def api_link(self, obj):
         # return HttpRequest.build_absolute_uri(location='api:{}-list'.format(obj.model))
         return reverse('api:{}-list'.format(obj.model))
+
+
+class PostSerializer(ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    author = BasicUserSerializer()
+    likes_count = serializers.ReadOnlyField()
+    comments_count = serializers.ReadOnlyField()
+    likes = LikeSerializer(many=True)
+    comments = CommentSerializer(many=True)
+
+    class Meta:
+        model = Post
+        fields = '__all__'

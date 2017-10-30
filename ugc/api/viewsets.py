@@ -9,8 +9,6 @@ import sys
 
 # Create your views here.
 
-# todo: сделать viewset который по object_id + content_type выдаёт объект
-
 
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()

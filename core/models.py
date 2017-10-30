@@ -24,7 +24,7 @@ class DateableModel(models.Model):
 
 class User(AbstractUser, DateableModel, WatchableModel, ModelWithApi):
 
-    following = models.ManyToManyField('self', blank=True)
+    following = models.ManyToManyField('self', blank=True, related_name="followers")
     # wall = models.ManyToMany(Event, blank=True)
 
     @classmethod

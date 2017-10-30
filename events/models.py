@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from core.models import AuthorableModel, DateableModel
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.db import models
 
 # Create your models here.
 
-
 class Event(AuthorableModel, DateableModel):
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField(default=0)
+    object = GenericForeignKey('content_type', 'object_id')
     title = models.TextField()
 
     class Meta:

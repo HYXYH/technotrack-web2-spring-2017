@@ -5,6 +5,8 @@ from rest_framework.decorators import list_route
 from serializers import BasicUserSerializer, FullUserSerializer
 from core.permissions import ReadOnly, permissions
 from core.models import User
+from ugc.models import Post
+from ugc.api.serializers import PostSerializer
 
 
 # Create your views here.
@@ -37,4 +39,20 @@ class UserViewSet(ModelViewSet):
     @list_route(methods=['get', 'put'], permission_classes=[permissions.IsAuthenticated], url_path='me')
     def my_profile(self, request):
         serialized = FullUserSerializer(User.objects.get(id=request.user.id))
+        return Response(serialized.data, status=status.HTTP_200_OK)
+
+    @list_route(methods=['get'], permission_classes=[permissions.IsAuthenticated], url_path='me/following')
+    def my_followings(self, request):
+        serialized = BasicUserSerializer( User.objects.get(id=request.user.id).following, many=True)
+        return Response(serialized.data, status=status.HTTP_200_OK)
+
+    # fixme:
+    @list_route(methods=['get'], permission_classes=[permissions.IsAuthenticated], url_path='me/followers')
+    def my_followers(self, request):
+        serialized = BasicUserSerializer(User.objects.get(id=request.user.id).followers, many=True)
+        return Response(serialized.data, status=status.HTTP_200_OK)
+
+    @list_route(methods=['get'], permission_classes=[permissions.IsAuthenticated], url_path='me/posts')
+    def my_posts(self, request):
+        serialized = PostSerializer(Post.objects.filter(author=request.user), many=True)
         return Response(serialized.data, status=status.HTTP_200_OK)

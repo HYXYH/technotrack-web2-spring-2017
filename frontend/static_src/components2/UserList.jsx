@@ -26,10 +26,12 @@ class UserList extends React.Component {
         // if (Все пользователи)
         // url = apiUrls.users
         // нужно в api сделать
-        //       /users/me/followers
-        //       /users/me/following
-        //       /users/me/posts
+        //       /users/me/followers - fixme
+        //       /users/me/following - ok
+        //       /users/me/posts     - ok
         //       /events/posts
+        //
+        // переделать events, чтобы отдавать ещё и content_type и obj_id, или лучше сразу объект
 
         // как в django на любую страницу кроме api отдавать react?
         this.props.loadUsers(apiUrls.users);

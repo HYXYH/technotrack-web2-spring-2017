@@ -6,8 +6,6 @@ from django.db.models.signals import post_save
 class WatchableModel(models.Model):
     activity_event = 'activity_event'
     follow_event = 'follow_event'
-    ACTIVITY_EVENT = 0
-    FOLLOW_EVENT = 1
 
     @classmethod
     def set_signal(cls, handler):
