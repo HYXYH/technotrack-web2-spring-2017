@@ -177,3 +177,13 @@ WEBPACK_LOADER = {
         'IGNORE': ['.+\.hot-update.js', '.+\.map']
     }
 }
+
+
+CELERY_BROKER_URL = 'redis://localhost:6379/3'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/3'
+
+# EMAIL
+
+ADMINS = ['admin@pepetter.com', ]
+
+EMAIL_PORT = 1025

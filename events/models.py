@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from rest_framework import serializers
 from core.models import AuthorableModel, DateableModel
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.db import models
 
-# Create your models here.
 
 class Event(AuthorableModel, DateableModel):
     content_type = models.ForeignKey(ContentType)

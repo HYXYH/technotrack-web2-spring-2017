@@ -12,6 +12,7 @@ class CommentSerializer(ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     author = BasicUserSerializer()
     likes_count = serializers.ReadOnlyField()
+    text = serializers.CharField()
 
     class Meta:
         model = Comment
@@ -42,12 +43,15 @@ class ContentTypeSerializer(ModelSerializer):
 
 class PostSerializer(ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    author = BasicUserSerializer()
+    author = BasicUserSerializer(read_only=True)
     likes_count = serializers.ReadOnlyField()
     comments_count = serializers.ReadOnlyField()
-    likes = LikeSerializer(many=True)
-    comments = CommentSerializer(many=True)
+    likes = LikeSerializer(many=True, read_only=True)
+    comments = CommentSerializer(many=True, read_only=True)
+    text = serializers.CharField(required=True)
 
     class Meta:
         model = Post
         fields = '__all__'
+
+

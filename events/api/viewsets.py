@@ -2,7 +2,7 @@
 from rest_framework.viewsets import ModelViewSet
 from serializers import EventSerializer
 from events.models import Event
-from core.permissions import permissions
+from core.permissions import permissions, ReadOnly
 
 # Create your views here.
 
@@ -10,7 +10,7 @@ from core.permissions import permissions
 class EventViewSet(ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, ReadOnly, )
 
     def get_queryset(self):
         qs = super(EventViewSet, self).get_queryset()

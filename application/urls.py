@@ -32,14 +32,14 @@ router.register(r'events', EventViewSet)
 router.register(r'types', ContentTypeViewSet, base_name='types')
 router.register(r'content', ContentViewSet, base_name='content')
 
+
 urlpatterns = [
-    url(r'^$', ensure_csrf_cookie(TemplateView.as_view(template_name='core/core.html'))),
     url(r'^api/v1/', include(router.urls, namespace='api')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^social/', include('social_django.urls', namespace='social')),
     url(r'^admin/', admin.site.urls),
+    url(r'^', ensure_csrf_cookie(TemplateView.as_view(template_name='core/core.html'))),
 ]
-
 # if settings.DEBUG:
 #     import debug_toolbar
 #
