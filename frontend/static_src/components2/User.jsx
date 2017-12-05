@@ -10,7 +10,7 @@ class UserComponent extends React.Component {
         firstname: PropTypes.string,
         lastname: PropTypes.string,
         email: PropTypes.string,
-        following: PropTypes.arrayOf(PropTypes.number),
+        // following: PropTypes.arrayOf(PropTypes.number), // этого нет в api :)
     };
 
     static defaultProps = {
@@ -36,7 +36,7 @@ class UserComponent extends React.Component {
                     </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
-                    <Icon name='users'/> {this.props.following.length}
+                    {/*<Icon name='users'/> {this.props.following.length()}*/}
                 </Card.Content>
             </Card>
         );

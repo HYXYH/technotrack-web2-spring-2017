@@ -11,7 +11,7 @@ import Post from './Post';
 class PostList extends React.Component {
     static propTypes = {
         isLoading: PropTypes.bool,
-        postList: PropTypes.arrayOf(PropTypes.number),
+        postList: PropTypes.arrayOf(PropTypes.object),
         loadPosts: PropTypes.func.isRequired,
     }
 

@@ -11,7 +11,7 @@ import User from './User';
 class UserList extends React.Component {
     static propTypes = {
         isLoading: PropTypes.bool,
-        userList: PropTypes.arrayOf(PropTypes.number),
+        userList: PropTypes.arrayOf(PropTypes.object),
         loadUsers: PropTypes.func.isRequired,
     }
 
@@ -34,8 +34,6 @@ class UserList extends React.Component {
         //
         // переделать events, чтобы отдавать ещё и content_type и obj_id, или лучше сразу объект
 
-
-        //todo: как в django на любую страницу кроме api отдавать react?
         this.props.loadUsers(apiUrls.users);
     }
 

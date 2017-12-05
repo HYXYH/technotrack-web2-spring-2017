@@ -27,10 +27,10 @@ class Feed extends React.Component {
         }
 
         return (
-            <div>
+            <div ref={this.handleContextRef}>
                 <Grid>
                     <Grid.Column width={4}>
-                        <Sticky offset={100}>
+                        <Sticky offset={100} context={contextRef}>
                             { menu }
                         </Sticky>
                     </Grid.Column>

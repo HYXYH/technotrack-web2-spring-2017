@@ -25,8 +25,20 @@ module.exports = {
             {
                 test: /\.(js|jsx)$/,
                 include: `${__dirname}/static_src`,
-                loader: 'babel-loader?presets[]=react&presets[]=env&presets[]=stage-1',
+                loader: 'babel-loader',
+                query: {
+                    plugins: ['transform-decorators-legacy' ],
+                    presets: ['es2015', 'stage-1', 'react']
+                },
             },
+            // {
+            //     test: /\.(js|jsx)$/,
+            //     include: `${__dirname}/static_src`,
+            //     loader: 'babel-loader?presets[]=react&presets[]=env&presets[]=stage-1',
+            //     query: {
+            //         plugins: ['transform-decorators-legacy' ]
+            //     },
+            // },
             {
                 test: /\.css$/,
                 loader: 'style-loader!css-loader',
