@@ -27,7 +27,6 @@ class App extends React.Component {
                     <Route exact path='/posts/' component={ () => <Feed menuType={0}/> }/>
                     <Route path='/posts/:postDetailsId' component={ (props) => <PostDetailComponent {...props} />}/>
                 </Switch>
-                <PostPopUp/>
             </div>
         );
     }

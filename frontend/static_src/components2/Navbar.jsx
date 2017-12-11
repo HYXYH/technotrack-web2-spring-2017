@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
-import {Menu, Dropdown, Image, } from 'semantic-ui-react'
+import {Menu, Dropdown, Image,} from 'semantic-ui-react'
+import PostPopUp from './PostPopUp';
 
 
 class Navbar extends React.Component {
@@ -29,6 +30,7 @@ class Navbar extends React.Component {
                         <Dropdown.Item>Log out</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
+                <PostPopUp/>
             </Menu>
         );
 
