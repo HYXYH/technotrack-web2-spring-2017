@@ -4,7 +4,6 @@ import { ADD_EVENT, DELETE_EVENT, SHOW_EVENT, HIDE_EVENT } from './../actions/no
 const initialState = {
     eventList: [],
     currentEvent: "",
-    isShowing: false,
 };
 
 export default function events(store = initialState, action) {
@@ -18,7 +17,6 @@ export default function events(store = initialState, action) {
 
         case DELETE_EVENT: {
             return update(newStore, {
-                isShowing: {$set: false},
                 eventList: {$set: [...(newStore.eventList.slice(1))]},
             });
         }
@@ -29,7 +27,6 @@ export default function events(store = initialState, action) {
                 current = newStore.eventList[0];
             return update(newStore, {
                 currentEvent: {$set: current},
-                isShowing: {$set: true},
             });
         }
 

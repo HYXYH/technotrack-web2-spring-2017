@@ -10,9 +10,9 @@ from ugc.models import Post, Comment, Like
 
 class CommentSerializer(ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    author = BasicUserSerializer()
+    author = BasicUserSerializer(read_only=True)
     likes_count = serializers.ReadOnlyField()
-    text = serializers.CharField()
+    text = serializers.CharField(required=True)
 
     class Meta:
         model = Comment
@@ -21,7 +21,7 @@ class CommentSerializer(ModelSerializer):
 
 class LikeSerializer(ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    author = BasicUserSerializer()
+    author = BasicUserSerializer(read_only=True)
 
     class Meta:
         model = Like
@@ -49,9 +49,22 @@ class PostSerializer(ModelSerializer):
     likes = LikeSerializer(many=True, read_only=True)
     comments = CommentSerializer(many=True, read_only=True)
     text = serializers.CharField(required=True)
+    isLiked = serializers.SerializerMethodField('is_liked')
+    myContentType = serializers.SerializerMethodField('my_content_type')
 
     class Meta:
         model = Post
         fields = '__all__'
 
+    def is_liked(self, obj):
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+            if len(obj.likes.filter(author=user)) == 0:
+                return False
+            else:
+                return True
+        return False
 
+    def my_content_type(self, obj):
+        return ContentType.objects.get(model='post').pk

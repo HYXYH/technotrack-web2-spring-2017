@@ -11,7 +11,7 @@ import sys
 
 
 class PostViewSet(ModelViewSet):
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().order_by('-created')
     serializer_class = PostSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
 
@@ -26,7 +26,7 @@ class PostViewSet(ModelViewSet):
 
 
 class CommentViewSet(ModelViewSet):
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.all().order_by('-created')
     serializer_class = CommentSerializer
     permission_classes = (IsOwnerOrReadOnly, permissions.IsAuthenticatedOrReadOnly)
 

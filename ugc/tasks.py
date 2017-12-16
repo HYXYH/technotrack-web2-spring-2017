@@ -62,3 +62,5 @@ def send_events_feed(user):
 
     context = {'username': user.username}
     send_mail(subject, text, 'emails/events_letter.html', context, to)
+
+

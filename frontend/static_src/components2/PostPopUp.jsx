@@ -49,11 +49,6 @@ class PostPopUp extends React.Component {
 
     handleMessage = (message) => {
         this.props.addEvent(message.data);
-        if (this.props.currentEvent == "" &&
-            this.props.isShowing == false &&
-            this.props.eventList.length > 0) {
-            this.props.showEvent();
-        }
     }
 
     handleHistory(history) {

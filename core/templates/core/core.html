@@ -1,4 +1,5 @@
 {% load render_bundle from webpack_loader %}
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -8,6 +9,14 @@
 
     <body>
         <div id="offset"> </div>
+        <div id="centrifuge" style="display: none;"
+             data-url="{{ CENTRIFUGE_WS_ENDPOINT }}"
+            data-user="{{ CENTRIFUGE_USER }}"
+            data-info="{{ CENTRIFUGE_INFO }}"
+            data-timestamp="{{ CENTRIFUGE_TIMESTAMP }}"
+            data-token="{{ CENTRIFUGE_TOKEN }}">
+
+        </div>
         <div id=root></div>
         {% render_bundle 'coreBundle' %}
     </body>
@@ -16,11 +25,6 @@
     #offset {
         height: 100px;
     }
-
-{#    body {#}
-{#        height: 1000px;#}
-{#    }#}
-
 </style>
 
 </html>

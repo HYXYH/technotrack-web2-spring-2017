@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'social_django',
     'webpack_loader',
+    'adjacent',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +78,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'adjacent.context_processors.main',
             ],
         },
     },
@@ -178,12 +180,18 @@ WEBPACK_LOADER = {
     }
 }
 
-
 CELERY_BROKER_URL = 'redis://localhost:6379/3'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/3'
 
 # EMAIL
 
+HOST_ADDRESS = '0.0.0.0:8000'
+
 ADMINS = ['admin@pepetter.com', ]
 
 EMAIL_PORT = 1025
+
+# Centrifugal adjacent
+CENTRIFUGE_ADDRESS = 'http://127.0.0.1:8081'
+CENTRIFUGE_SECRET = '6a72807c-8ff6-492b-80f9-4e45e6f07f87'
+CENTRIFUGE_TIMEOUT = 10

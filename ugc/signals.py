@@ -25,7 +25,7 @@ def confirm_new_post(instance, created=False, *args, **kwargs):
         transaction.on_commit(lambda: (send_new_post_mail.apply_async([instance.pk, ], {})))
 
 
-post_save.connect(confirm_new_post, Post)
+# post_save.connect(confirm_new_post, Post)
 post_save.connect(count_likes, Like)
 pre_delete.connect(count_likes, Like)
 post_save.connect(count_comments, Comment)

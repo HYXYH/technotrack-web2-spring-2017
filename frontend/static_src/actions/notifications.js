@@ -7,11 +7,15 @@ var eventCount = 0;
 
 export const addEvent = (message) => {
     return (function (dispatch) {
+        var show = eventCount == 0;
         eventCount += 1;
         dispatch({
             type: ADD_EVENT,
             payload: message,
         });
+        if (show) {
+            dispatch(showEvent());
+        }
         // setTimeout(dispatch, 5000, {type: DELETE_EVENT});
     })
 };
