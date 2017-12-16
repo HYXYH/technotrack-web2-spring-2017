@@ -31,7 +31,7 @@ class PostList extends React.Component {
 
         const posts = this.props.postList.map(
             item => <Post key={ item.id } id={ item.id } text={ item.text } author={ item.author }
-                          likes_count={item.likes_count} isLiked={item.isLiked} myContentType={item.myContentType}/>,
+                          likes_count={item.likes_count} likeId={item.likeId} myContentType={item.myContentType}/>,
         );
         return (
             <div>{ posts }</div>

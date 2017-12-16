@@ -2,6 +2,7 @@ import update from 'react-addons-update';
 import { START_POST_LOADING, SUCCESS_POST_LOADING, ERROR_POST_LOADING } from './../actions/posts';
 import { START_POST_SENDING, SUCCESS_POST_SENDING, ERROR_POST_SENDING } from './../actions/posts';
 import { START_LIKE_SENDING, SUCCESS_LIKE_SENDING, ERROR_LIKE_SENDING } from './../actions/likes';
+import { START_UNLIKE_SENDING, SUCCESS_UNLIKE_SENDING, ERROR_UNLIKE_SENDING } from './../actions/likes';
 
 const initialState = {
     postList: [],
@@ -71,11 +72,23 @@ export default function posts(store = initialState, action) {
             let newCount = newStore.postList[found].likes_count + 1;
 
             return update(newStore, {
-                postList: { [found]: {"likes_count": {$set: newCount}} },
+                postList: { [found]: {"likes_count": {$set: newCount}, "likeId": {$set: action.payload.id}} },
             });
         }
         case ERROR_LIKE_SENDING: {
             return newStore;
+        }
+        case START_UNLIKE_SENDING: {
+            let found = getPostListId(newStore, action.payload);
+            if (found == -1)
+                return newStore;
+
+            let newCount = newStore.postList[found].likes_count - 1;
+
+            return update(newStore, {
+                postList: { [found]: {"likes_count": {$set: newCount}, "isLiked": {$set: false}, "likeId": {$set: 0}} },
+            });
+
         }
         default:
             return newStore;

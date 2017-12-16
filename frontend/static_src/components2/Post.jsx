@@ -1,7 +1,7 @@
 import React from 'react';
 import {Icon, Card, Label, Container, Button, Grid} from 'semantic-ui-react'
 import {showPostDetails} from './../actions/posts'
-import {sendLike} from './../actions/likes'
+import {sendLike, sendUnLike} from './../actions/likes'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
@@ -13,20 +13,21 @@ class PostComponent extends React.Component {
         id: PropTypes.number.isRequired,
         author: PropTypes.object,
         likes_count: PropTypes.number,
-        isLiked: PropTypes.bool,
+        likeId: PropTypes.number,
         myContentType: PropTypes.number,
         comments_count: PropTypes.number,
         text: PropTypes.string,
 
         showPostDetails: PropTypes.func.isRequired,
         sendLike: PropTypes.func.isRequired,
+        sendUnLike: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
         id: 0,
         author: null,
         likes_count: 0,
-        isLiked: false,
+        likeId: 0,
         myContentType: 8,
         comments_count: 0,
         text: '',
@@ -35,11 +36,20 @@ class PostComponent extends React.Component {
     handleShowDetailsClick = (e) => this.props.showPostDetails(this.props.id);
 
     // todo:
-    handleLikeClick = (e) => this.props.sendLike(apiUrls.likes, this.props.myContentType, this.props.id);
+    handleLikeClick = (e) => {
+        if (this.props.likeId == 0) {
+            console.log("set like");
+            this.props.sendLike(apiUrls.likes, this.props.myContentType, this.props.id);
+        }
+        else {
+            console.log("delete like");
+            this.props.sendUnLike(apiUrls.likes, this.props.likeId, this.props.myContentType, this.props.id);
+        }
+    }
 
     render() {
-        let likeButton = <Icon name='like' onClick={this.handleLikeClick}/> ;
-        if (this.props.isLiked)
+        let likeButton = <Icon name='like' onClick={this.handleLikeClick}/>;
+        if (this.props.likeId > 0)
             likeButton = <Icon color="red" name='like' onClick={this.handleLikeClick}/>;
         return (
             <Card fluid>
@@ -58,7 +68,8 @@ class PostComponent extends React.Component {
                                 {likeButton} {this.props.likes_count}
                             </Grid.Column>
                             <Grid.Column width={2}>
-                                <Icon link onClick={this.handleShowDetailsClick} name='comments'/>{this.props.comments_count}
+                                <Icon link onClick={this.handleShowDetailsClick}
+                                      name='comments'/>{this.props.comments_count}
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
@@ -75,7 +86,7 @@ const mapStateToProps = ({posts}) => {
 
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({showPostDetails, sendLike}, dispatch)
+    return bindActionCreators({showPostDetails, sendLike, sendUnLike}, dispatch)
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostComponent);
