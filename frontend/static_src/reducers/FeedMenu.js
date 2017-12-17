@@ -1,28 +1,30 @@
 import update from 'react-addons-update';
 import apiUrls from './../constants/apiUrls';
 
-import {CHANGE_USERS_MENU} from '../actions/UsersMenu';
+import {CHANGE_FEED_MENU} from '../actions/FeedMenu';
 
 
 const initialState = {
-    activeItem: 0,
-    apiUrl: apiUrls.users
+    activeItem: 3,
+    apiUrl: apiUrls.posts
 };
 
 
-export default function users(store = initialState, action) {
+export default function posts(store = initialState, action) {
     let newStore = store;
 
     switch (action.type) {
-        case CHANGE_USERS_MENU: {
-            let newUrl = apiUrls.users;
+        case CHANGE_FEED_MENU: {
+            let newUrl = apiUrls.posts;
             let newIndex = parseInt(action.payload.index);
             if (newIndex == 0)
-                newUrl = apiUrls.following;
+                newUrl = apiUrls.events;
             if (newIndex == 1)
-                newUrl = apiUrls.followers;
+                newUrl = apiUrls.myFeedPosts;
             if (newIndex == 2)
-                newUrl = apiUrls.users;
+                newUrl = apiUrls.myPosts ;
+            if (newIndex == 3)
+                newUrl = apiUrls.posts;
 
             return update(newStore, {
                 activeItem: { $set: newIndex },

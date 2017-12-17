@@ -1,5 +1,9 @@
 export default {
-    me: '/api/v1/users/me',
+    me: '/api/v1/users/me/',
+    myPosts: '/api/v1/users/me/posts/',
+    myFeedPosts: '/api/v1/users/me/feedposts/',
+    followers: '/api/v1/users/me/followers/',
+    following: '/api/v1/users/me/following/',
     users:   '/api/v1/users/',
     posts:   '/api/v1/posts/',
     comments:'/api/v1/comments/',

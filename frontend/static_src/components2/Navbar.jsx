@@ -25,7 +25,7 @@ class Navbar extends React.Component {
                     <Dropdown.Menu>
                         <Dropdown.Item><Link to="/me/"> Me </Link></Dropdown.Item>
                         <Dropdown.Item><Link to="/"> Feed </Link></Dropdown.Item>
-                        <Dropdown.Item><Link to="/users/"> following </Link></Dropdown.Item>
+                        <Dropdown.Item><Link to="/users/"> Users </Link></Dropdown.Item>
                         <Dropdown.Divider />
                         <Dropdown.Item>Log out</Dropdown.Item>
                     </Dropdown.Menu>

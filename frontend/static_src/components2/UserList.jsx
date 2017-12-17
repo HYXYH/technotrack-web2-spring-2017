@@ -13,6 +13,8 @@ class UserList extends React.Component {
         isLoading: PropTypes.bool,
         userList: PropTypes.arrayOf(PropTypes.object),
         loadUsers: PropTypes.func.isRequired,
+
+        apiUrl: PropTypes.string,
     }
 
     static defaultProps = {
@@ -21,20 +23,7 @@ class UserList extends React.Component {
     }
 
     componentDidMount() {
-
-        //todo:
-        //subscribe (CHANGE_ITEM)
-        // if (Все пользователи)
-        // url = apiUrls.users
-        // нужно в api сделать
-        //       /users/me/followers - ok
-        //       /users/me/following - ok
-        //       /users/me/posts     - ok
-        //       /events/posts       - ??? todo
-        //
-        // переделать events, чтобы отдавать ещё и content_type и obj_id, или лучше сразу объект
-
-        this.props.loadUsers(apiUrls.users);
+        this.props.loadUsers(this.props.apiUrl);
     }
 
     render() {
@@ -58,10 +47,11 @@ class UserList extends React.Component {
 }
 
 
-const mapStateToProps = ({users}) => {
+const mapStateToProps = ({users, UsersMenu}) => {
     return {
         userList: users.userList,
         isLoading: users.isLoading,
+        apiUrl: UsersMenu.apiUrl,
     }
 }
 

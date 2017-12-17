@@ -5,19 +5,23 @@ import {changeItem} from './../actions/UsersMenu';
 import PropTypes from 'prop-types';
 import { Menu, Divider } from 'semantic-ui-react'
 
+
+const MENU_ITEMS = ['Мои подписки', 'Подписчики', 'Все пользователи' ];
+
+
 class UsersMenu extends Component {
     static propTypes = {
         changeItem: PropTypes.func.isRequired,
-        activeItem: PropTypes.string,
+        activeItem: PropTypes.number,
     }
 
     render() {
         return (
             <Menu fluid vertical tabular>
-                <Menu.Item name='Мои подписки' active={this.props.activeItem === 'Мои подписки'} onClick={this.props.changeItem}/>
-                <Menu.Item name='Подписчики' active={this.props.activeItem === 'Подписчики'} onClick={this.props.changeItem}/>
-                 <Divider hidden/>
-                <Menu.Item name='Все пользователи' active={this.props.activeItem === 'Все пользователи'} onClick={this.props.changeItem}/>
+                <Menu.Item name={MENU_ITEMS[0]} active={this.props.activeItem == 0} index={0} onClick={this.props.changeItem}/>
+                <Menu.Item name={MENU_ITEMS[1]} active={this.props.activeItem == 1} index={1} onClick={this.props.changeItem}/>
+                <Divider hidden/>
+                <Menu.Item name={MENU_ITEMS[2]} active={this.props.activeItem == 2} index={2} onClick={this.props.changeItem}/>
             </Menu>
         )
     }

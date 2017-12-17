@@ -1,53 +1,53 @@
-export const ADD_EVENT = 'ADD_EVENT';
-export const DELETE_EVENT = 'DELETE_EVENT';
-export const SHOW_EVENT = 'SHOW_EVENT';
-export const HIDE_EVENT = 'HIDE_EVENT';
+export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
+export const DELETE_NOTIFICATION = 'DELETE_NOTIFICATION';
+export const SHOW_NOTIFICATION = 'SHOW_NOTIFICATION';
+export const HIDE_NOTIFICATION = 'HIDE_NOTIFICATION';
 
-var eventCount = 0;
+var notificationCount = 0;
 
-export const addEvent = (message) => {
+export const addNotification = (message) => {
     return (function (dispatch) {
-        var show = eventCount == 0;
-        eventCount += 1;
+        var show = notificationCount == 0;
+        notificationCount += 1;
         dispatch({
-            type: ADD_EVENT,
+            type: ADD_NOTIFICATION,
             payload: message,
         });
         if (show) {
-            dispatch(showEvent());
+            dispatch(showNotification());
         }
-        // setTimeout(dispatch, 5000, {type: DELETE_EVENT});
+        // setTimeout(dispatch, 5000, {type: DELETE_NOTIFICATION});
     })
 };
 
 
-export const showEvent = () => {
+export const showNotification = () => {
     return (function (dispatch) {
         dispatch({
-            type: SHOW_EVENT,
+            type: SHOW_NOTIFICATION,
         });
-        // setTimeout(dispatch, 100, {type: SHOW_EVENT});
-        setTimeout(dispatch, 5000, hideEvent());
+        // setTimeout(dispatch, 100, {type: SHOW_NOTIFICATION});
+        setTimeout(dispatch, 5000, hideNotification());
     })
 }
 
-export const hideEvent = () => {
+export const hideNotification = () => {
     return (function (dispatch) {
         dispatch({
-            type: HIDE_EVENT,
+            type: HIDE_NOTIFICATION,
         });
-        setTimeout(dispatch, 1000, deleteEvent());
+        setTimeout(dispatch, 1000, deleteNotification());
     })
 }
 
-export const deleteEvent = () => {
+export const deleteNotification = () => {
     return (function (dispatch) {
         dispatch({
-            type: DELETE_EVENT,
+            type: DELETE_NOTIFICATION,
         });
-        eventCount -= 1;
-        if (eventCount > 0) {
-            setTimeout(dispatch, 0, showEvent());
+        notificationCount -= 1;
+        if (notificationCount > 0) {
+            setTimeout(dispatch, 0, showNotification());
         }
     })
 }

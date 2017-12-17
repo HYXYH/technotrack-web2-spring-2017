@@ -1,7 +1,7 @@
 import React from 'react'
 import {cent} from 'react-cent'
 import {Label, Segment, Transition} from 'semantic-ui-react'
-import {addEvent, showEvent} from '../actions/notifications'
+import {addNotification, showNotification} from '../actions/notifications'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
@@ -10,10 +10,10 @@ import PropTypes from 'prop-types';
 @cent
 class PostPopUp extends React.Component {
     static propTypes = {
-        eventList: PropTypes.arrayOf(PropTypes.string),
-        currentEvent: PropTypes.string,
-        addEvent: PropTypes.func.isRequired,
-        showEvent: PropTypes.func.isRequired,
+        notificationList: PropTypes.arrayOf(PropTypes.string),
+        currentNotification: PropTypes.string,
+        addNotification: PropTypes.func.isRequired,
+        showNotification: PropTypes.func.isRequired,
         isShowing: PropTypes.bool,
     };
 
@@ -21,7 +21,7 @@ class PostPopUp extends React.Component {
         super(props)
         // Subscribe on `site-metrics` channel.
         let data = document.querySelector('#centrifuge').dataset || {};
-        this.props.cent.subscribe('events-' + data.user, message => {
+        this.props.cent.subscribe('notifications-' + data.user, message => {
             this.handleMessage(message)
         }).history().then(history => {
             this.handleHistory(history)
@@ -30,7 +30,7 @@ class PostPopUp extends React.Component {
 
     render() {
         let visible = true;
-        if (this.props.currentEvent == "")
+        if (this.props.currentNotification == "")
             visible = false;
 
         return (
@@ -42,13 +42,13 @@ class PostPopUp extends React.Component {
                     basic
                     color='green'
                     size='large'>
-                    {this.props.currentEvent}
+                    {this.props.currentNotification}
                 </Label>}
             </Transition.Group>)
     }
 
     handleMessage = (message) => {
-        this.props.addEvent(message.data);
+        this.props.addNotification(message.data);
     }
 
     handleHistory(history) {
@@ -56,17 +56,17 @@ class PostPopUp extends React.Component {
     }
 }
 
-const mapStateToProps = ({events}) => {
+const mapStateToProps = ({notifications}) => {
     return {
-        eventList: events.eventList,
-        currentEvent: events.currentEvent,
-        isShowing: events.isShowing,
+        notificationList: notifications.notificationList,
+        currentNotification: notifications.currentNotification,
+        isShowing: notifications.isShowing,
     };
 };
 
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({addEvent, showEvent}, dispatch)
+    return bindActionCreators({addNotification, showNotification}, dispatch)
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostPopUp);

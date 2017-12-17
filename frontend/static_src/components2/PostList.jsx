@@ -13,15 +13,18 @@ class PostList extends React.Component {
         isLoading: PropTypes.bool,
         postList: PropTypes.arrayOf(PropTypes.object),
         loadPosts: PropTypes.func.isRequired,
+
+        apiUrl: PropTypes.string,
     }
 
     static defaultProps = {
         postList: [],
         isLoading: false,
+        apiUrl: apiUrls.posts
     }
 
     componentDidMount() {
-        this.props.loadPosts(apiUrls.posts);
+        this.props.loadPosts(this.props.apiUrl);
     }
 
     render() {
@@ -41,10 +44,11 @@ class PostList extends React.Component {
 }
 
 
-const mapStateToProps = ({posts}) => {
+const mapStateToProps = ({posts, FeedMenu}) => {
     return {
         postList: posts.postList,
         isLoading: posts.isLoading,
+        apiUrl: FeedMenu.apiUrl,
     }
 }
 

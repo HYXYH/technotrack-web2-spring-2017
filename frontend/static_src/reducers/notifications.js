@@ -1,38 +1,38 @@
 import update from 'react-addons-update';
-import { ADD_EVENT, DELETE_EVENT, SHOW_EVENT, HIDE_EVENT } from './../actions/notifications';
+import { ADD_NOTIFICATION, DELETE_NOTIFICATION, SHOW_NOTIFICATION, HIDE_NOTIFICATION } from './../actions/notifications';
 
 const initialState = {
-    eventList: [],
-    currentEvent: "",
+    notificationList: [],
+    currentNotification: "",
 };
 
-export default function events(store = initialState, action) {
+export default function notifications(store = initialState, action) {
     let newStore = store;
     switch (action.type) {
-        case ADD_EVENT: {
+        case ADD_NOTIFICATION: {
             return update(newStore, {
-                eventList: {$set: [...newStore.eventList, action.payload]},
+                notificationList: {$set: [...newStore.notificationList, action.payload]},
             });
         }
 
-        case DELETE_EVENT: {
+        case DELETE_NOTIFICATION: {
             return update(newStore, {
-                eventList: {$set: [...(newStore.eventList.slice(1))]},
+                notificationList: {$set: [...(newStore.notificationList.slice(1))]},
             });
         }
 
-        case SHOW_EVENT: {
+        case SHOW_NOTIFICATION: {
             var current = "";
-            if (newStore.eventList.length > 0)
-                current = newStore.eventList[0];
+            if (newStore.notificationList.length > 0)
+                current = newStore.notificationList[0];
             return update(newStore, {
-                currentEvent: {$set: current},
+                currentNotification: {$set: current},
             });
         }
 
-        case HIDE_EVENT: {
+        case HIDE_NOTIFICATION: {
             return update(newStore, {
-                currentEvent: {$set: ""},
+                currentNotification: {$set: ""},
             });
         }
 

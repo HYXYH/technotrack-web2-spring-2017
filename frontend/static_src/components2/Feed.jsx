@@ -1,15 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ContentMenu from './ContentMenu';
+import FeedMenu from './FeedMenu';
 import UsersMenu from './UsersMenu';
 import PostList from './PostList';
+import EventList from './EventList';
 import UserList from './UserList';
+import {connect} from 'react-redux';
 import {Segment, Grid, Sticky} from 'semantic-ui-react'
 
 
 class Feed extends React.Component {
     static propTypes = {
         menuType: PropTypes.number.isRequired,
+
+        feedMenuItem: PropTypes.number,
+        usersMenuItem: PropTypes.number,
     };
 
     state = {};
@@ -18,12 +23,16 @@ class Feed extends React.Component {
 
     render() {
         const {contextRef} = this.state;
-        let menu = <ContentMenu/>;
-        let feed = <PostList/>;
+        let menu = <FeedMenu/>;
+        let feed = <PostList key={this.props.feedMenuItem} />;
+
+        if (this.props.feedMenuItem == 0){
+            feed = <EventList key={this.props.feedMenuItem} />;
+        }
 
         if (this.props.menuType === 1) {
             menu = <UsersMenu/>;
-            feed = <UserList/>;
+            feed = <UserList key={this.props.usersMenuItem} />;
         }
 
         return (
@@ -46,4 +55,18 @@ class Feed extends React.Component {
     }
 }
 
-export default Feed;
+// export default Feed;
+
+const mapStateToProps = ({FeedMenu, UsersMenu}) => {
+    return {
+        feedMenuItem: FeedMenu.activeItem,
+        usersMenuItem: UsersMenu.activeItem,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {};
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Feed);
