@@ -1,13 +1,15 @@
 import update from 'react-addons-update';
 import { START_POST_LOADING, SUCCESS_POST_LOADING, ERROR_POST_LOADING } from './../actions/posts';
 import { START_POST_SENDING, SUCCESS_POST_SENDING, ERROR_POST_SENDING } from './../actions/posts';
+import { START_COMMENT_SENDING, SUCCESS_COMMENT_SENDING, ERROR_COMMENT_SENDING } from './../actions/comments';
 import { START_LIKE_SENDING, SUCCESS_LIKE_SENDING, ERROR_LIKE_SENDING } from './../actions/likes';
 import { START_UNLIKE_SENDING, SUCCESS_UNLIKE_SENDING, ERROR_UNLIKE_SENDING } from './../actions/likes';
 
 const initialState = {
     postList: [],
     isLoading: false,
-    isSending: false,
+    isPostSending: false,
+    isCommentSending: false,
 };
 
 
@@ -39,18 +41,41 @@ export default function posts(store = initialState, action) {
 
         case START_POST_SENDING: {
             return update(newStore, {
-                isSending: { $set: true },
+                isPostSending: { $set: true },
             });
         }
         case SUCCESS_POST_SENDING: {
             return update(newStore, {
-                isSending: { $set: false },
+                isPostSending: { $set: false },
                 postList: { $set: [action.payload, ...newStore.postList] },
             });
         }
         case ERROR_POST_SENDING: {
             return update(newStore, {
-                isSending: { $set: false },
+                isPostSending: { $set: false },
+            });
+        }
+
+        case START_COMMENT_SENDING: {
+            return update(newStore, {
+                isCommentSending: { $set: true },
+            });
+        }
+        case SUCCESS_COMMENT_SENDING: {
+            let found = getPostListId(newStore, action.payload);
+            if (found == -1)
+                return newStore;
+
+            let oldComments = newStore.postList[found].comments;
+
+            return update(newStore, {
+                isCommentSending: { $set: false },
+                postList: { [found]: {"comments": { $set: [action.payload, ...oldComments] } } },
+            });
+        }
+        case ERROR_COMMENT_SENDING: {
+            return update(newStore, {
+                isCommentSending: { $set: false },
             });
         }
 

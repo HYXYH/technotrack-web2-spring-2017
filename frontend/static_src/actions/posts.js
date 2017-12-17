@@ -1,7 +1,6 @@
 import { CALL_API, getJSON } from 'redux-api-middleware';
 import { push } from 'react-router-redux';
-import { normalize } from 'normalizr';
-import thunk from 'redux-thunk';
+// import { normalize } from 'normalizr';
 
 // import { post } from './../utils/schemas';
 

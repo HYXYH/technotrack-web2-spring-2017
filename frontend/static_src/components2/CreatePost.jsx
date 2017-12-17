@@ -19,7 +19,7 @@ class CreatePost extends React.Component {
     static propTypes = {
         trigger: PropTypes.node.isRequired,
         sendPost: PropTypes.func.isRequired,
-        isSending: PropTypes.bool,
+        isPostSending: PropTypes.bool,
     }
 
      onChange = (e) => {
@@ -30,7 +30,7 @@ class CreatePost extends React.Component {
 
     render() {
 
-        if (this.props.isSending) {
+        if (this.props.isPostSending) {
             return <center>Заливаем пост...</center>;
         }
 
@@ -52,7 +52,7 @@ class CreatePost extends React.Component {
 
 const mapStateToProps = ({posts}) => {
     return {
-        isSending: posts.isSending,
+        isPostSending: posts.isPostSending,
     }
 }
 

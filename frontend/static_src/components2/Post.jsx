@@ -35,7 +35,7 @@ class PostComponent extends React.Component {
 
     handleShowDetailsClick = (e) => this.props.showPostDetails(this.props.id);
 
-    // todo:
+
     handleLikeClick = (e) => {
         if (this.props.likeId == 0) {
             console.log("set like");

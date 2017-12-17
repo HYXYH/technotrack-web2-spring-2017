@@ -3,7 +3,8 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {loadPosts} from './../actions/posts';
 import Comment from './Comment'
-import {Icon, Header, Message, Container, Divider, Grid} from 'semantic-ui-react'
+import {Icon, Header, Message, Button, Divider, Grid} from 'semantic-ui-react'
+import CreateComment from './CreateComment'
 import PropTypes from 'prop-types';
 import apiUrls from './../constants/apiUrls';
 
@@ -41,9 +42,10 @@ class PostDetailComponent extends React.Component {
                 break;
         }
 
+        var postContentType = this.props.postList[arrayId].myContentType;
         const comments = this.props.postList[arrayId].comments.map(
             item => <Comment key={ item.id } id={ item.id } text={ item.text } author={ item.author }
-                          likes_count={item.likes_count}/>,
+                             likes_count={item.likes_count}/>,
         );
 
 
@@ -51,7 +53,7 @@ class PostDetailComponent extends React.Component {
             <Grid container style={{padding: '5em 0em', margin: '-100px'}}>
                 <Grid.Row>
                     <Grid.Column>
-                        <Header as='h1' >
+                        <Header as='h1'>
                             <Icon name='user'/> {this.props.postList[arrayId].author.username }
                         </Header>
                     </Grid.Column>
@@ -65,7 +67,19 @@ class PostDetailComponent extends React.Component {
                                 { this.props.postList[arrayId].text }
                             </p>
                             <Icon name='like'/> {this.props.postList[arrayId].likes_count}
+
                         </Message>
+                        <CreateComment contentType={postContentType}
+                                       objectId={parseInt(postId)}
+                                       trigger={
+                                            <Button basic color='black'>
+                                            <Icon.Group  size='large'>
+                                            <Icon name='comment outline'/>
+                                            <Icon corner name='add' />
+                                            </Icon.Group>
+                                                Комментировать
+                                            </Button>
+                                        }/>
                     </Grid.Column>
                 </Grid.Row>
 
